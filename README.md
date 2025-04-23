@@ -1,43 +1,29 @@
-Instructions for Replacing Files and Importing the Database
-Delete the Existing Project Folder:
+ How to Replace Files and Import the Database
 
-Go to your XAMPP directory.
+- **Step 1: Delete the Old Project Folder**
+  - Go to your XAMPP folder.
+  - Open the `htdocs` folder.
+  - Find the `itproject` folder and delete it.
 
-Navigate to htdocs → itproject.
+- **Step 2: Add the New Files**
+  - After deleting the old folder, copy the new `itproject` folder.
+  - Paste the new folder into the `htdocs` folder.
 
-Delete the existing itproject folder to remove the old files.
+- **Step 3: Create the Database**
+  - Start XAMPP and turn on Apache and MySQL.
+  - Open **phpMyAdmin** by going to [http://localhost/phpmyadmin](http://localhost/phpmyadmin) in your web browser.
+  - In phpMyAdmin, click the **Databases** tab.
+  - Create a new database named `overalldb` (make sure it’s in **lowercase**).
+  - Once the database is created, click on it to open it.
 
-Replace with New Files:
+- **Step 4: Import the Database**
+  - In the `overalldb` database, click the **Import** tab.
+  - Click the **Choose File** button and find the database file:
+    `xampp > htdocs > itproject > database`.
+  - Select the `overalldb.sql` file and click **Open**.
+  - Then click **Go** to import the database.
 
-After deleting the old folder, copy the new version of the itproject folder.
-
-Paste it into the htdocs directory of your XAMPP installation.
-
-Create the Database:
-
-Open your XAMPP control panel and start both Apache and MySQL services.
-
-Open phpMyAdmin by navigating to http://localhost/phpmyadmin in your browser.
-
-In the phpMyAdmin interface, click on the Databases tab.
-
-Create a new database named overalldb (make sure the name is in lowercase).
-
-Once the database is created, click on it to open the database management view.
-
-Import the Database:
-
-While inside the overalldb database, click the Import tab.
-
-Click the Choose File button and navigate to: xampp > htdocs > itproject > database.
-
-Select the database file named overalldb.sql (or any other relevant file) and click Open.
-
-After selecting the file, click Go to begin the import process.
-
-Check the Setup:
-
-After the import is complete, make sure all tables and data are correctly loaded into the overalldb database.
-
-You should now be able to access your project and interact with the database through your XAMPP environment.
+- **Step 5: Check Everything**
+  - After the import is done, make sure all the tables and data are loaded correctly.
+  - Now you can use the project and interact with the database.
 

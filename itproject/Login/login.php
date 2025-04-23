@@ -6,11 +6,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = trim($_POST['email']);
     $password = trim($_POST['password']);
 
-    // Sanitize input
     $email = htmlspecialchars($email);
     $password = htmlspecialchars($password);
 
-    // Validate inputs
     if (empty($email) || empty($password)) {
         $_SESSION['error_message'] = "All fields are required.";
         header('Location: login.php');
@@ -47,12 +45,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($result->num_rows > 0) {
             $user = $result->fetch_assoc();
 
-            // Debugging: Print the $user array to verify column names
-            var_dump($user);  // Check the fetched data structure
-
             // Verify password
             if (password_verify($password, $user['user_password'])) {
                 // Store user details in session
+                $_SESSION['user_email'] = $email; // Store email in session
                 $_SESSION['user_id'] = $user['id'];  // Store user ID in session
                 $_SESSION['user_type'] = $type;  // Store user type (Student, Teacher, Admin)
 
@@ -60,7 +56,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if ($type == "Teacher") {
                     $_SESSION['teacher_name'] = $user[$data['name_col']];
                 } elseif ($type == "Student") {
-                    // Adjust this based on the correct column name
                     $_SESSION['student_id'] = $user[$data['id_col']];  // Correct the student ID column name if needed
                     $_SESSION['student_name'] = $user[$data['name_col']];  // Store the student name if needed
                 } elseif ($type == "Admin") {

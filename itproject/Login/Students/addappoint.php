@@ -109,7 +109,7 @@ $conn->close();
             </div>
             <div class="mb-3">
                 <label class="form-label">Email Account</label>
-                <input type="text" name="email" class="form-control" value="<?php echo $_POST['email'] ?? ''; ?>" >
+                <input type="text" name="email" class="form-control" value="<?php echo $_SESSION['user_email'] ?? ''; ?>" readonly>
             </div>
             <div class="mb-3">
                 <label class="form-label">Section</label>

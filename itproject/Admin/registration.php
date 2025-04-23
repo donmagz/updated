@@ -6,10 +6,10 @@ session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] != 'Admin') {
-    header("Location: /itproject/Login/login.php");
-    exit();
-}
+// if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] != 'Admin') {
+//     header("Location: /itproject/Login/login.php");
+//     exit();
+// }
 
 require 'C:\xampp\htdocs\itproject\DBconnect\Accounts\overall.php';
 $feedback = '';

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 22, 2025 at 04:07 PM
+-- Generation Time: Apr 23, 2025 at 01:09 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -41,7 +41,7 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`admin_id`, `admin_name`, `admin_email`, `user_password`, `profile_image`, `registration_date`) VALUES
-(1, '3', '3@g.cu.edu.ph', '$2y$10$kEYYbJX.iAxPsNAIgACA7eoSh87GlEyDNDRbTZr8lQLIlyIA7Ps1S', 'uploads/410855338_6902156369899961_555800931182185015_n.jpg', '2025-04-22 08:21:40');
+(1, 'Admin', '5@g.cu.edu.ph', '$2y$10$NGz7xBastlo9J1ie4BC7c.rgoLyQgEZtUw5NtRX09x3s./OjTiyR6', 'uploads/aa.jpg', '2025-04-23 10:57:28');
 
 -- --------------------------------------------------------
 
@@ -68,13 +68,7 @@ CREATE TABLE `appointmentdb` (
 --
 
 INSERT INTO `appointmentdb` (`ID`, `student_ID`, `student_name`, `teacher_name`, `department_name`, `section`, `appointment_date`, `Description`, `Status`, `user_ID`, `user_type`) VALUES
-(1, 'yawa@g.cu.edu.p', 'asdsa', 'lawas', 'Education', 'A', '2223-03-21 00:32:00', 'asdas', 'Pending', 0, 'student'),
-(2, '1@g.cu.edu.ph', 'brandon', '2', 'Computer Studies', 'A', '1231-02-01 12:33:00', '123', 'Completed', 0, 'student'),
-(3, '1@g.cu.edu.ph', 'test', '2', 'Computer Studies', 'A', '2123-03-12 00:32:00', '1231', 'Ongoing', 0, 'student'),
-(4, '1@g.cu.edu.ph', 'asd', '2', 'Computer Studies', 'A', '3222-03-21 14:13:00', 'asd', 'Ongoing', 0, 'student'),
-(5, '1@g.cu.edu.ph', 'asdas', '2', 'Computer Studies', 'A', '1212-12-12 12:12:00', 'ad', 'Ongoing', 0, 'student'),
-(6, '1@g.cu.edu.ph', 'asdsa', '2', 'Computer Studies', 'A', '1223-12-12 12:31:00', 'asd', 'Pending', 0, 'student'),
-(7, '1@g.cu.edu.ph', 'asd', 'lawas', 'Education', 'A', '2132-03-12 00:32:00', 'asdasd', 'Pending', 0, 'student');
+(1, '1@g.cu.edu.ph', 'Brandon', 'teacher', 'Education', 'A', '1111-11-11 11:11:00', 'asdasdas', 'Completed', 0, 'student');
 
 -- --------------------------------------------------------
 
@@ -123,8 +117,8 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`student_id`, `student_name`, `student_email`, `user_password`, `department_id`, `department_name`, `profile_image`, `registration_date`) VALUES
-(1, '1', '1@g.cu.edu.ph', '$2y$10$7uiyf6spvT.MqkjW9.W4WOZBrxSIrPd77k5iPHPgU5OGve9aNQ96K', NULL, 'Computer Studies', 'uploads/1__y4BSlczZSLCkyOmCMC1Yw.png', '2025-04-21 12:48:54'),
-(2, 'brandon', 'don@g.cu.edu.ph', '$2y$10$fC.q3wjv9wSARtLCKbjfQeTPa0cFACjTOH0o5e/n259X4Go7H1QZW', NULL, 'Education', '', '2025-04-21 12:49:07');
+(1, 'Brandon', '1@g.cu.edu.ph', '$2y$10$tDfZZk6uPylYIuVDAxQJ6.y/MQ1SCdxSfqfQFshRZLCovW7u1fpsK', NULL, 'Computer Studies', 'uploads/1__y4BSlczZSLCkyOmCMC1Yw.png', '2025-04-23 10:55:43'),
+(2, 'second', '2@g.cu.edu.ph', '$2y$10$L/cCl2xMpH5HOLMkV0T6KeyD8KMaOFRW2.w1oQBMF9Y2MxIJTGPlG', NULL, 'Computer Studies', 'uploads/chrome.webp', '2025-04-23 10:56:04');
 
 -- --------------------------------------------------------
 
@@ -148,8 +142,8 @@ CREATE TABLE `teacher` (
 --
 
 INSERT INTO `teacher` (`teacher_id`, `teacher_name`, `teacher_email`, `user_password`, `department_id`, `department_name`, `profile_image`, `registration_date`) VALUES
-(1, '2', '2@g.cu.edu.ph', '$2y$10$USd2NktjZiga1pIUak0Gs.YwyeXiEu3R2j2wl5o0ld6vmLu2S4j72', NULL, 'Computer Studies', 'uploads/bot.png', '2025-04-21 12:48:35'),
-(2, 'lawas', 'lawas@g.cu.edu.ph', '$2y$10$IKzYNkudZmIhEoPP.bgX4eVCVcOeIMff6.AMnci2G4re4tz.I/2t.', NULL, 'Education', 'uploads/CLASSIC-PEPPERONI.webp', '2025-04-21 13:02:06');
+(1, 'teacher', '3@g.cu.edu.ph', '$2y$10$.ytNmzMoDGUG0NtlSH/AOubSqQQpf.y4k8tmE44FjXwPu9HUYEla6', NULL, 'Education', 'uploads/bot.png', '2025-04-23 10:56:19'),
+(2, 'lawas', '4@g.cu.edu.ph', '$2y$10$1Qelv9uRgx9yKZcOyVGpN.84.zCFEnuXjFp6Qyx1k6A0.bHx9ochG', NULL, 'Education', 'uploads/compressed_img-4PhhAyyTSAQsHWlRRCnp6QvT.png', '2025-04-23 10:57:02');
 
 -- --------------------------------------------------------
 
@@ -243,19 +237,19 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `appointmentdb`
 --
 ALTER TABLE `appointmentdb`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `departments`
 --
 ALTER TABLE `departments`
-  MODIFY `department_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `department_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `teacher`

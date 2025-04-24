@@ -3,10 +3,10 @@
 session_start();
 
 // Optional: Admin access check (uncomment if needed)
-// if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] != 'Admin') {
-//     header("Location: /itproject/Login/login.php");
-//     exit();
-// }
+if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] != 'Admin') {
+    header("Location: /itproject/Login/login.php");
+    exit();
+}
 
 
 require 'C:\xampp\htdocs\itproject\DBconnect\Accounts\overall.php';
@@ -113,7 +113,7 @@ $selected_role = isset($_POST['role']) ? $_POST['role'] : '';
         <ul class="navbar-nav ms-auto">
             <li class="nav-item"><a class="nav-link text-white" href="/itproject/Admin/registration.php">Create Account</a></li>
             <li class="nav-item"><a class="nav-link text-white" href="/itproject/aboutus.php">About Us</a></li>
-            <li class="nav-item"><a class="nav-link text-white" href="/itproject/Login/login.php">Log in</a></li>
+            <li class="nav-item"><a class="nav-link text-white" href="/itproject/Login/login.php">Log Out</a></li>
         </ul>
     </div>
 </nav>

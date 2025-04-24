@@ -106,6 +106,7 @@ $result = $statement->get_result();
     </div>
 </nav>
 
+
 <div class="container d-flex justify-content-center mt-4">
     <div class="container3">
         <h1>Scheduled Appointments</h1>

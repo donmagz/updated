@@ -73,15 +73,15 @@ $conn->close();
     <form method="POST">
         <div class="mb-3">
             <label class="form-label">Name:</label>
-            <input type="text" name="name" value="<?php echo htmlspecialchars($name); ?>" class="form-control" required>
+            <input type="text" name="name" value="<?php echo htmlspecialchars($name); ?>" class="form-control" >
         </div>
         <div class="mb-3">
             <label class="form-label">Email:</label>
-            <input type="email" name="email" value="<?php echo htmlspecialchars($email); ?>" class="form-control" required>
+            <input type="email" name="email" value="<?php echo htmlspecialchars($email); ?>" class="form-control" >
         </div>
         <div class="mb-3">
             <label class="form-label">Password:</label>
-            <input type="password" name="password" value="<?php echo htmlspecialchars($password); ?>" class="form-control" required>
+            <input type="password" name="password" value="<?php echo htmlspecialchars($password); ?>" class="form-control" >
         </div>
         <button href="viewadmin.php" type="submit" class="btn btn-success">Save Changes</button>
         <a href="/itproject/Admin/viewadmin.php" class="btn btn-secondary">Cancel</a>

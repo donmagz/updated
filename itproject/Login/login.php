@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 require 'C:\xampp\htdocs\itproject\DBconnect\Accounts\Conn_overall.php';
@@ -45,24 +46,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($result->num_rows > 0) {
             $user = $result->fetch_assoc();
 
-            // Verify password
+           
             if (password_verify($password, $user['user_password'])) {
-                // Store user details in session
-                $_SESSION['user_email'] = $email; // Store email in session
-                $_SESSION['user_id'] = $user['id'];  // Store user ID in session
-                $_SESSION['user_type'] = $type;  // Store user type (Student, Teacher, Admin)
+            
+                $_SESSION['user_email'] = $email; 
+                $_SESSION['user_id'] = $user['id'];  
+                $_SESSION['user_type'] = $type;  
 
-                // Store student or teacher info in session
+           
                 if ($type == "Teacher") {
                     $_SESSION['teacher_name'] = $user[$data['name_col']];
                 } elseif ($type == "Student") {
-                    $_SESSION['student_id'] = $user[$data['id_col']];  // Correct the student ID column name if needed
-                    $_SESSION['student_name'] = $user[$data['name_col']];  // Store the student name if needed
+                    $_SESSION['student_id'] = $user[$data['id_col']];  
+                    $_SESSION['student_name'] = $user[$data['name_col']];  
                 } elseif ($type == "Admin") {
                     $_SESSION['admin_id'] = $user['admin_id'];
                 }
 
-                // Redirect to the appropriate page for the user type
                 header("Location: " . $data['redirect']);
                 exit();
             } else {
@@ -73,7 +73,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    // If no user was found with that email
     $_SESSION['error_message'] = "No account found with that email.";
     header('Location: login.php');
     exit();

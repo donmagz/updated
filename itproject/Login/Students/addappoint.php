@@ -5,6 +5,7 @@ require 'C:\xampp\htdocs\itproject\DBconnect\Accounts\overall.php';
 $success_message = "";
 $error_message = "";
 $instructors = [];
+$appointments = [];
 $action = $_POST['action'] ?? '';
 
 if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] != 'Student') {
@@ -12,16 +13,16 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] != 'Student') {
     exit();
 }
 
+$studentID = $_SESSION['student_id'] ?? null;
 
+// Fetch instructors and handle submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (!empty($_POST['department_name'])) {
+    if (!empty($_POST['department_name']) && $action === "fetch") {
         $department_selected = mysqli_real_escape_string($conn, $_POST['department_name']);
         $query = "SELECT teacher_name FROM teacher WHERE department_name = '$department_selected'";
         $result = $conn->query($query);
-        if ($result && $result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $instructors[] = $row['teacher_name'];
-            }
+        while ($row = $result->fetch_assoc()) {
+            $instructors[] = $row['teacher_name'];
         }
     }
 
@@ -39,29 +40,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $error_message = "All fields are required.";
         } else {
             $appointment_datetime = $date . " " . $time . ":00";
-
-            $name = mysqli_real_escape_string($conn, $name);
-            $id = mysqli_real_escape_string($conn, $id);
-            $section = mysqli_real_escape_string($conn, $section);
-            $description = mysqli_real_escape_string($conn, $description);
-            $department = mysqli_real_escape_string($conn, $department);
-            $teacher = mysqli_real_escape_string($conn, $teacher);
-
-            $statement = $conn->prepare("INSERT INTO appointmentdb (student_name, student_ID, section, appointment_date, Description, department_name, teacher_name, Status) VALUES (?, ?, ?, ?, ?, ?, ?, 'Pending')");
-
-            if ($statement) {
-                $statement->bind_param("sssssss", $name, $id, $section, $appointment_datetime, $description, $department, $teacher);
-                if ($statement->execute()) {
-                    $success_message = "Appointment added successfully!";
-                } else {
-                    $error_message = "Error adding appointment. Please try again.";
-                }
-                $statement->close();
+            $stmt = $conn->prepare("INSERT INTO appointmentdb (student_name, student_ID, section, appointment_date, Description, department_name, teacher_name, Status) VALUES (?, ?, ?, ?, ?, ?, ?, 'Pending')");
+            $stmt->bind_param("sssssss", $name, $id, $section, $appointment_datetime, $description, $department, $teacher);
+            if ($stmt->execute()) {
+                $success_message = "Appointment added successfully!";
             } else {
-                $error_message = "Database error: " . $conn->error;
+                $error_message = "Error adding appointment. Please try again.";
             }
+            $stmt->close();
         }
     }
+}
+
+// Always refresh appointments AFTER insert or fetch
+if ($studentID) {
+    $stmt = $conn->prepare("SELECT * FROM appointmentdb WHERE student_ID = ?");
+    $stmt->bind_param("i", $studentID);
+    $stmt->execute();
+    $appointments = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
 }
 
 $conn->close();
@@ -97,9 +94,9 @@ $conn->close();
         <h2 class="text-center">Appointments</h2>
 
         <?php if (!empty($success_message)): ?>
-            <div class="alert alert-success"><?php echo $success_message; ?></div>
+            <div class="text-center alert alert-success"><?php echo $success_message; ?></div>
         <?php elseif (!empty($error_message)): ?>
-            <div class="alert alert-danger"><?php echo $error_message; ?></div>
+            <div class="text-center alert alert-danger"><?php echo $error_message; ?></div>
         <?php endif; ?>
 
         <form method="POST">
@@ -126,7 +123,7 @@ $conn->close();
             <div class="mb-3">
                 <label class="form-label">Department</label>
                 <div class="input-group">
-                    <select name="department_name" class="form-control" >
+                    <select name="department_name" class="form-control">
                         <option value="">Select Department</option>
                         <?php
                         $departments = [
@@ -145,7 +142,7 @@ $conn->close();
             </div>
             <div class="mb-3">
                 <label class="form-label">Instructor</label>
-                <select name="teacher_name" class="form-control" >
+                <select name="teacher_name" class="form-control">
                     <option value="">Select Instructor</option>
                     <?php foreach ($instructors as $tname): ?>
                         <option value="<?php echo $tname; ?>" <?php echo (isset($_POST['teacher_name']) && $_POST['teacher_name'] === $tname) ? 'selected' : ''; ?>>
@@ -161,11 +158,61 @@ $conn->close();
 
             <div class="d-grid gap-2">
                 <button type="submit" name="action" value="submit" class="btn btn-success">Add Appointment</button>
-                <a href="viewappoint.php" class="btn btn-primary">View Appointments</a>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#viewModal">View Appointments</button>
                 <a href="/itproject/Login/login.php" class="btn btn-danger">Log out</a>
             </div>
         </form>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="viewModalLabel">My Appointments</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <?php if (!empty($appointments)): ?>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th><th>Section</th><th>Date</th><th>Teacher</th><th>Department</th><th>Description</th><th>Status</th><th>Cancel Remark</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($appointments as $row): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($row['student_name']) ?></td>
+                            <td><?= htmlspecialchars($row['section']) ?></td>
+                            <td><?= htmlspecialchars($row['appointment_date']) ?></td>
+                            <td><?= htmlspecialchars($row['teacher_name']) ?></td>
+                            <td><?= htmlspecialchars($row['department_name']) ?></td>
+                            <td><?= htmlspecialchars($row['Description']) ?></td>
+                            <td><?= htmlspecialchars($row['Status']) ?></td>
+                            <td>
+                            <?php 
+                            // Check if the appointment was cancelled and if cancel_remark exists
+                            if ($row['Status'] === 'Cancelled' && isset($row['Cancellation_Remark'])) {
+                                echo htmlspecialchars($row['Cancellation_Remark']);
+                            } else {
+                                echo 'N/A';
+                            }
+                            ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        <?php else: ?>
+            <p class="text-center">No appointments scheduled.</p>
+        <?php endif; ?>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
